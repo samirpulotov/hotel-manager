@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import type { LoginCredentials, RegisterCredentials, User } from '../types/auth';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000/api/v1';
@@ -119,16 +119,37 @@ api.interceptors.response.use(
 
 export const authApi = {
     login: async (credentials: LoginCredentials) => {
+        console.log('Making login request to:', `${API_URL}/auth/login`);
+        console.log('With credentials:', credentials);
         const params = new URLSearchParams();
         params.append('username', credentials.username);
         params.append('password', credentials.password);
         
-        const response = await api.post('/auth/login', params, {
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-            },
-        });
-        return response.data;
+        try {
+            const response = await api.post('/auth/login', params, {
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+            });
+            console.log('Login response:', response.data);
+            return response.data;
+        } catch (error) {
+            if (error instanceof AxiosError) {
+                console.error('Login error:', error);
+                console.error('Error details:', {
+                    status: error.response?.status,
+                    statusText: error.response?.statusText,
+                    data: error.response?.data,
+                    config: {
+                        url: error.config?.url,
+                        method: error.config?.method,
+                        headers: error.config?.headers,
+                        data: error.config?.data
+                    }
+                });
+            }
+            throw error;
+        }
     },
 
     register: async (credentials: RegisterCredentials) => {
