@@ -8,7 +8,7 @@ import Guests from '../pages/Guests';
 import Dashboard from '../pages/Dashboard';
 import Financial from '../pages/Financial';
 import Tariffs from '../pages/Tariffs';
-import { Dashboard as DashboardIcon, Hotel as HotelIcon, People as PeopleIcon, EventNote as EventNoteIcon, AttachMoney as AttachMoneyIcon, CalendarMonth as CalendarMonthIcon, PriceChange as PriceChangeIcon } from '@mui/icons-material';
+import { Dashboard as DashboardIcon, Hotel as HotelIcon, People as PeopleIcon, AttachMoney as AttachMoneyIcon, CalendarMonth as CalendarMonthIcon, PriceChange as PriceChangeIcon } from '@mui/icons-material';
 
 const queryClient = new QueryClient();
 

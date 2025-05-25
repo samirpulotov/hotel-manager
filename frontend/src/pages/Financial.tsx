@@ -31,6 +31,9 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { format } from 'date-fns';
 import { financialApi } from '../api/financial';
 import type { FinancialTransaction, TransactionCreate } from '../types/financial';
+import axios from 'axios';
+
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000/api/v1';
 
 function Financial() {
   const [open, setOpen] = useState(false);
@@ -46,7 +49,7 @@ function Financial() {
 
   const queryClient = useQueryClient();
 
-  const { data: transactions, isLoading } = useQuery<FinancialTransaction[]>({
+  const { data: transactions } = useQuery<FinancialTransaction[]>({
     queryKey: ['transactions'],
     queryFn: financialApi.getTransactions,
   });

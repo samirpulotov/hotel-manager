@@ -47,7 +47,7 @@ function Tariffs() {
 
   const queryClient = useQueryClient();
 
-  const { data: tariffs, isLoading } = useQuery({
+  const { data: tariffs = [] } = useQuery<RoomTariff[]>({
     queryKey: ['tariffs'],
     queryFn: () => tariffApi.getTariffs(),
   });

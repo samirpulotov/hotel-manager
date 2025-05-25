@@ -1,5 +1,5 @@
 import axios from 'axios';
-import type { LoginCredentials, RegisterCredentials, AuthResponse, User } from '../types/auth';
+import type { LoginCredentials, RegisterCredentials, User } from '../types/auth';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000/api/v1';
 

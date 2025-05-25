@@ -7,6 +7,7 @@ Create Date: 2024-03-19 14:00:00.000000
 """
 from alembic import op
 import sqlalchemy as sa
+from sqlalchemy.dialects import postgresql
 
 # revision identifiers, used by Alembic.
 revision = 'e9168342cc3f'
@@ -15,8 +16,13 @@ branch_labels = None
 depends_on = None
 
 def upgrade() -> None:
-    # Drop the redundant room_type column
-    op.drop_column('rooms', 'room_type')
+    # Check if the column exists before trying to drop it
+    conn = op.get_bind()
+    inspector = sa.inspect(conn)
+    columns = [col['name'] for col in inspector.get_columns('rooms')]
+    
+    if 'room_type' in columns:
+        op.drop_column('rooms', 'room_type')
 
 def downgrade() -> None:
     # Add back the room_type column
