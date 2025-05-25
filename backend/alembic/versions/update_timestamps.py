@@ -16,7 +16,15 @@ branch_labels = None
 depends_on = None
 
 def upgrade():
-    # Make created_at and updated_at non-nullable and set default values
+    # First, update any NULL values
+    op.execute("""
+        UPDATE rooms 
+        SET created_at = CURRENT_TIMESTAMP, 
+            updated_at = CURRENT_TIMESTAMP 
+        WHERE created_at IS NULL OR updated_at IS NULL
+    """)
+
+    # Then make columns non-nullable and set default values
     op.alter_column('rooms', 'created_at',
         existing_type=sa.DateTime(timezone=True),
         nullable=False,
@@ -27,14 +35,6 @@ def upgrade():
         nullable=False,
         server_default=sa.text('CURRENT_TIMESTAMP')
     )
-
-    # Update any existing NULL values
-    op.execute("""
-        UPDATE rooms 
-        SET created_at = CURRENT_TIMESTAMP, 
-            updated_at = CURRENT_TIMESTAMP 
-        WHERE created_at IS NULL OR updated_at IS NULL
-    """)
 
 def downgrade():
     # Make columns nullable again
