@@ -158,14 +158,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }, [refreshToken]);
 
     const login = async (credentials: LoginCredentials) => {
+        console.log('Starting login process...');
         const response = await authApi.login(credentials);
+        console.log('Login response:', response);
         localStorage.setItem('token', response.access_token);
+        console.log('Token stored in localStorage');
         const user = await authApi.getCurrentUser(response.access_token);
+        console.log('Current user data:', user);
         setState({
             user,
             token: response.access_token,
             isAuthenticated: true,
         });
+        console.log('Auth state updated, navigating to home...');
         navigate('/');
     };
 
