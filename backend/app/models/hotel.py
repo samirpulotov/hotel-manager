@@ -1,5 +1,6 @@
-from sqlalchemy import Column, String, Integer, Float, ForeignKey, Boolean, Enum, Date, DateTime
+from sqlalchemy import Column, String, Integer, Float, ForeignKey, Boolean, Enum, Date, DateTime, JSON, Text
 from sqlalchemy.orm import relationship
+from sqlalchemy.sql import func
 import enum
 from .base import BaseModel
 from datetime import datetime
@@ -18,15 +19,20 @@ class BookingStatus(str, enum.Enum):
 class Room(BaseModel):
     __tablename__ = "rooms"
 
+    id = Column(Integer, primary_key=True, index=True)
     number = Column(String, unique=True, index=True)
     type = Column(Enum(RoomType), nullable=False)
     floor = Column(Integer)
     capacity = Column(Integer)
     is_available = Column(Boolean, default=True)
-    description = Column(String)
-    amenities = Column(String)  # JSON string of amenities
+    description = Column(Text)
+    amenities = Column(Text)
+    created_at = Column(DateTime(timezone=True), server_default=func.now())
+    updated_at = Column(DateTime(timezone=True), onupdate=func.now())
 
-    bookings = relationship("Booking", back_populates="room")
+    # Relationships
+    tariffs = relationship("RoomTariff", back_populates="room", cascade="all, delete-orphan")
+    bookings = relationship("Booking", back_populates="room", cascade="all, delete-orphan")
 
 class Guest(BaseModel):
     __tablename__ = "guests"
