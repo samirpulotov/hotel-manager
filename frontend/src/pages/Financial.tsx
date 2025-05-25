@@ -3,7 +3,6 @@ import {
   Box,
   Card,
   CardContent,
-  Grid,
   Typography,
   Table,
   TableBody,
@@ -31,9 +30,6 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { format } from 'date-fns';
 import { financialApi } from '../api/financial';
 import type { FinancialTransaction, TransactionCreate } from '../types/financial';
-import axios from 'axios';
-
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000/api/v1';
 
 function Financial() {
   const [open, setOpen] = useState(false);
