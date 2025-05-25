@@ -4,7 +4,7 @@ const API_URL = import.meta.env.VITE_API_URL || 'http://185.185.70.103';
 console.log('Client API_URL:', API_URL);
 
 const client = axios.create({
-    baseURL: API_URL,
+    baseURL: `${API_URL}/api/v1`,
     headers: {
         'Content-Type': 'application/json',
     },
