@@ -1,7 +1,7 @@
 import axios, { AxiosError } from 'axios';
 import type { LoginCredentials, RegisterCredentials, User } from '../types/auth';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000/api/v1';
+const API_URL = import.meta.env.VITE_API_URL || 'http://185.185.70.103/api/v1';
 console.log('API_URL from env:', import.meta.env.VITE_API_URL);
 console.log('Using API_URL:', API_URL);
 
