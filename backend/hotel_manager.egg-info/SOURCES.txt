@@ -1,0 +1,6 @@
+setup.py
+hotel_manager.egg-info/PKG-INFO
+hotel_manager.egg-info/SOURCES.txt
+hotel_manager.egg-info/dependency_links.txt
+hotel_manager.egg-info/requires.txt
+hotel_manager.egg-info/top_level.txt
