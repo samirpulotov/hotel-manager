@@ -27,12 +27,19 @@ class Room(BaseModel):
     is_available = Column(Boolean, default=True)
     description = Column(Text)
     amenities = Column(Text)
-    created_at = Column(DateTime(timezone=True), server_default=func.now())
-    updated_at = Column(DateTime(timezone=True), onupdate=func.now())
+    created_at = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
+    updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now(), nullable=False)
 
     # Relationships
     tariffs = relationship("RoomTariff", back_populates="room", cascade="all, delete-orphan")
     bookings = relationship("Booking", back_populates="room", cascade="all, delete-orphan")
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        if not self.created_at:
+            self.created_at = datetime.utcnow()
+        if not self.updated_at:
+            self.updated_at = datetime.utcnow()
 
 class Guest(BaseModel):
     __tablename__ = "guests"
