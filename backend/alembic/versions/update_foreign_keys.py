@@ -16,10 +16,10 @@ depends_on = None
 
 def upgrade():
     # Drop existing foreign key constraints
-    op.drop_constraint('financial_transactions_booking_id_fkey', 'financial_transactions', type_='foreignkey')
-    op.drop_constraint('bookings_guest_id_fkey', 'bookings', type_='foreignkey')
-    op.drop_constraint('bookings_room_id_fkey', 'bookings', type_='foreignkey')
-    op.drop_constraint('room_tariffs_room_id_fkey', 'room_tariffs', type_='foreignkey')
+    op.execute('ALTER TABLE financial_transactions DROP CONSTRAINT IF EXISTS financial_transactions_booking_id_fkey')
+    op.execute('ALTER TABLE bookings DROP CONSTRAINT IF EXISTS bookings_guest_id_fkey')
+    op.execute('ALTER TABLE bookings DROP CONSTRAINT IF EXISTS bookings_room_id_fkey')
+    op.execute('ALTER TABLE room_tariffs DROP CONSTRAINT IF EXISTS fk_room_tariffs_room_id')
 
     # Recreate foreign key constraints with ON DELETE CASCADE
     op.create_foreign_key(
@@ -41,7 +41,7 @@ def upgrade():
         ondelete='CASCADE'
     )
     op.create_foreign_key(
-        'room_tariffs_room_id_fkey',
+        'fk_room_tariffs_room_id',
         'room_tariffs', 'rooms',
         ['room_id'], ['id'],
         ondelete='CASCADE'
@@ -49,10 +49,10 @@ def upgrade():
 
 def downgrade():
     # Drop cascade foreign key constraints
-    op.drop_constraint('financial_transactions_booking_id_fkey', 'financial_transactions', type_='foreignkey')
-    op.drop_constraint('bookings_guest_id_fkey', 'bookings', type_='foreignkey')
-    op.drop_constraint('bookings_room_id_fkey', 'bookings', type_='foreignkey')
-    op.drop_constraint('room_tariffs_room_id_fkey', 'room_tariffs', type_='foreignkey')
+    op.execute('ALTER TABLE financial_transactions DROP CONSTRAINT IF EXISTS financial_transactions_booking_id_fkey')
+    op.execute('ALTER TABLE bookings DROP CONSTRAINT IF EXISTS bookings_guest_id_fkey')
+    op.execute('ALTER TABLE bookings DROP CONSTRAINT IF EXISTS bookings_room_id_fkey')
+    op.execute('ALTER TABLE room_tariffs DROP CONSTRAINT IF EXISTS fk_room_tariffs_room_id')
 
     # Recreate original foreign key constraints
     op.create_foreign_key(
@@ -71,7 +71,7 @@ def downgrade():
         ['room_id'], ['id']
     )
     op.create_foreign_key(
-        'room_tariffs_room_id_fkey',
+        'fk_room_tariffs_room_id',
         'room_tariffs', 'rooms',
         ['room_id'], ['id']
     ) 
