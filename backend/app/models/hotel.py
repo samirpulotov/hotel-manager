@@ -54,7 +54,7 @@ class Guest(BaseModel):
     preferences = Column(String)  # JSON string of preferences
     is_active = Column(Boolean, default=True)
 
-    bookings = relationship("Booking", back_populates="guest")
+    bookings = relationship("Booking", back_populates="guest", cascade="all, delete-orphan")
 
 class Booking(BaseModel):
     __tablename__ = "bookings"
@@ -70,6 +70,7 @@ class Booking(BaseModel):
 
     guest = relationship("Guest", back_populates="bookings")
     room = relationship("Room", back_populates="bookings")
+    financial_transactions = relationship("FinancialTransaction", back_populates="booking", cascade="all, delete-orphan")
 
 class Employee(BaseModel):
     __tablename__ = "employees"
@@ -94,6 +95,8 @@ class FinancialTransaction(BaseModel):
     description = Column(String)
     payment_method = Column(String)
     transaction_date = Column(Date)
+
+    booking = relationship("Booking", back_populates="financial_transactions")
 
 class RoomTariff(BaseModel):
     __tablename__ = "room_tariffs"
