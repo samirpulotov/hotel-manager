@@ -92,6 +92,7 @@ class RoomTariff(BaseModel):
     __tablename__ = "room_tariffs"
 
     id = Column(Integer, primary_key=True, index=True)
+    room_id = Column(Integer, ForeignKey("rooms.id"), nullable=False)
     room_type = Column(String, nullable=False)
     price_per_night = Column(Float, nullable=False)
     weekend_price_per_night = Column(Float, nullable=True)  # Price for Friday and Saturday nights
@@ -100,6 +101,9 @@ class RoomTariff(BaseModel):
     end_date = Column(Date, nullable=False)
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
+    # Relationships
+    room = relationship("Room", back_populates="tariffs")
 
     class Config:
         orm_mode = True 
