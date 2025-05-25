@@ -2,6 +2,8 @@ import axios, { AxiosError } from 'axios';
 import type { LoginCredentials, RegisterCredentials, User } from '../types/auth';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000/api/v1';
+console.log('API_URL from env:', import.meta.env.VITE_API_URL);
+console.log('Using API_URL:', API_URL);
 
 // Create a separate axios instance for refresh token requests
 const refreshAxios = axios.create({
@@ -53,9 +55,16 @@ const processQueue = (error: any = null, token: string | null = null) => {
     failedQueue = [];
 };
 
-// Add request interceptor to include token
+// Add request interceptor to log all requests
 api.interceptors.request.use(
     (config) => {
+        const fullUrl = `${config.baseURL || ''}${config.url || ''}`;
+        console.log('Making request to:', fullUrl);
+        console.log('Request config:', {
+            method: config.method,
+            headers: config.headers,
+            data: config.data
+        });
         const token = localStorage.getItem('token');
         if (token) {
             config.headers.Authorization = `Bearer ${token}`;
