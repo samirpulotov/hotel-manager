@@ -56,7 +56,7 @@ function Rooms() {
   const { data: tariffs } = useQuery<Record<string, RoomTariff>>({
     queryKey: ['current-tariffs'],
     queryFn: async () => {
-      const roomTypes = ['STANDARD', 'DELUXE', 'SUITE', 'FAMILY'];
+      const roomTypes = ['GUEST_HOUSE', 'FRAME'];
       const tariffs: Record<string, RoomTariff> = {};
       
       for (const type of roomTypes) {
