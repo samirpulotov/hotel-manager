@@ -1,13 +1,13 @@
 import axios, { AxiosError } from 'axios';
 import type { LoginCredentials, RegisterCredentials, User } from '../types/auth';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://185.185.70.103/api/v1';
+const API_URL = import.meta.env.VITE_API_URL || 'http://185.185.70.103';
 console.log('API_URL from env:', import.meta.env.VITE_API_URL);
 console.log('Using API_URL:', API_URL);
 
 // Create a separate axios instance for refresh token requests
 const refreshAxios = axios.create({
-    baseURL: API_URL,
+    baseURL: `${API_URL}/api/v1`,
     headers: {
         'Content-Type': 'application/json',
     },
@@ -29,7 +29,7 @@ refreshAxios.interceptors.request.use(
 
 // Create the main axios instance
 const api = axios.create({
-    baseURL: API_URL,
+    baseURL: `${API_URL}/api/v1`,
     headers: {
         'Content-Type': 'application/json',
     },
